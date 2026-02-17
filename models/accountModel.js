@@ -30,14 +30,16 @@ class Account {
         return result.rows;
     }
 
-    static async updateBalance(id, amount) {
+    static async updateBalance(id, amount, client = null) {
         const query = `
       UPDATE accounts 
       SET balance = balance + $2 
       WHERE id = $1 
       RETURNING *;
     `;
-        const result = await db.query(query, [id, amount]);
+        const result = client
+            ? await client.query(query, [id, amount])
+            : await db.query(query, [id, amount]);
         return result.rows[0];
     }
 

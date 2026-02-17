@@ -9,5 +9,6 @@ router.use(authenticateToken);
 router.post('/', accountController.createAccount);
 router.get('/', accountController.getMyAccounts);
 router.get('/:id', accountController.getAccountById);
+router.get('/:id/history', accountController.getAccountHistory);
 
 module.exports = router;

@@ -53,3 +53,24 @@ exports.getAccountById = async (req, res) => {
         res.status(500).json({ message: 'Server error fetching account details' });
     }
 };
+
+exports.getAccountHistory = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const userId = req.user.id;
+
+        // Verify ownership
+        const isOwner = await Account.isOwner(id, userId);
+        if (!isOwner) {
+            return res.status(403).json({ message: 'Access denied' });
+        }
+
+        const Ledger = require('../models/ledgerModel');
+        const history = await Ledger.getAccountHistory(id);
+        res.json(history);
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error fetching account history' });
+    }
+};
