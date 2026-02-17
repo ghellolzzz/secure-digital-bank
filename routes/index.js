@@ -8,6 +8,9 @@ router.use('/auth', authRoutes);
 const accountRoutes = require('./accountRoutes');
 router.use('/accounts', accountRoutes);
 
+const transferRoutes = require('./transferRoutes');
+router.use('/transfers', transferRoutes);
+
 router.get('/', (req, res) => {
     res.json({ message: 'Welcome to the Secure Digital Bank API' });
 });

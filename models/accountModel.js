@@ -30,6 +30,17 @@ class Account {
         return result.rows;
     }
 
+    static async updateBalance(id, amount) {
+        const query = `
+      UPDATE accounts 
+      SET balance = balance + $2 
+      WHERE id = $1 
+      RETURNING *;
+    `;
+        const result = await db.query(query, [id, amount]);
+        return result.rows[0];
+    }
+
     static async findById(id) {
         const query = `SELECT * FROM accounts WHERE id = $1`;
         const result = await db.query(query, [id]);
